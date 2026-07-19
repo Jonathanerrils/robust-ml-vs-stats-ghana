@@ -154,3 +154,53 @@ either name lying around somewhere, they're stale.
   RGBA tuple when the list had length 4, crashing on some target groups.
   Fixed by looping and drawing each error bar individually with an
   explicit scalar color.
+
+## Reference verification pass (second push)
+- User supplied a literature-verification document cross-checking every
+  citation already in the bibliography against primary sources, plus a
+  list of well-specified candidate additions.
+- Fixed 4 real citation errors this uncovered: Hassanniakalager et al.
+  (2024) corrected from an unverified "working paper" placeholder to its
+  actual venue, International Journal of Forecasting 40(3), 881-902,
+  with full author list; the MPRA crypto-volatility paper's author
+  field, which had been listing "Munich Personal RePEc Archive" (the
+  repository, not a person) as the author, corrected to Brahmana, R.;
+  the financial-crisis explainability paper corrected to its actual
+  author, Reimann, M.; the currency-crisis EWS paper's year corrected
+  from 2025 to 2023 and venue corrected to Economia Aplicada.
+- The CAD/USD paper -- this project's single most important citation,
+  since it's the closest external validation of the paper's central
+  finding -- had no author at all in the previous push. Searched and
+  confirmed directly against the arXiv abstract page: 9 authors (Louis
+  Agyekum and colleagues), arXiv:2606.15058. While verifying, also
+  independently re-read the actual abstract text against how this
+  paper characterizes the CAD/USD result in prose -- confirmed accurate
+  (linear regression is the only model beating random walk
+  significantly per their own DM test, p=0.0071; all ML ensembles show
+  only marginal, non-significant differences), not just trusted from an
+  earlier, less direct search pass.
+- One entry required independent verification rather than trusting the
+  supplied document at face value: the document attributed the energy-
+  volatility arXiv paper (2405.19849) ambiguously to either "Yaro" or
+  "Chung" in different places. Searched directly and confirmed via four
+  independent sources (arXiv, ResearchGate, Semantic Scholar, RePEc)
+  that the sole author is Seulki Chung (2024) -- and separately
+  confirmed the existing "Yaro" citation (componentgarch2024) is a
+  genuinely different paper, an HEC Montreal master's thesis on
+  component GARCH, not a duplicate of Chung's paper under a different
+  name. Both entries are now correctly, separately attributed.
+- Added 12 new citations identified as genuine gaps: the classical
+  forecast-comparison and data-snooping literature (White 2000, Hansen
+  2005, Diebold & Mariano 1995, Diebold 2015), the foundational
+  exchange-rate random-walk result (Meese & Rogoff 1983), one further
+  currency-crisis sequence-model precedent (Barthelemy et al. 2024) and
+  one further volatility counter-example where LSTM does not beat ARIMA
+  (Ly, Traore & Dia 2021), and five foundational method citations that
+  were a real gap given how central these methods are to the paper's
+  own design: Breiman (2001) for random forest, Chen & Guestrin (2016)
+  for XGBoost, Tibshirani (1996) for LASSO, Lundberg & Lee (2017) for
+  SHAP, and Fawcett (2006) for ROC/AUC as the primary evaluation metric.
+- 7 citations still carry disclosed missing-author warnings. The
+  verification document is explicit that these still need primary-
+  source lookup before formal submission; names were not invented to
+  clear the warnings.

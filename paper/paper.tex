@@ -188,6 +188,41 @@ a false-discovery-rate-based framework specifically to separate genuine
 variation, a design instinct this paper's own dual-correction procedure
 shares.
 
+This concern connects directly to an older econometric literature on
+forecast comparison and data snooping, one this paper's significance-
+testing design draws on throughout. \citet{deprado2018} argues that
+much of financial machine learning fails specifically because of
+backtest overfitting, weak labelling, and insufficiently strict out-of-
+sample discipline; \citet{vabalas2019} show more generally that
+validation on small samples inflates reported performance whenever
+tuning and evaluation are not properly separated, the diagnosis this
+paper's nested cross-validation design (Section~\ref{sec:nestedcv})
+exists to address. Formal tools for exactly this problem predate the
+current machine-learning literature by decades:
+\citet{dieboldmariano1995} establish the classical test of equal
+predictive accuracy between two forecasts; \citet{white2000} develops a
+reality-check procedure for the broader problem of data snooping when
+many candidate models are compared against a benchmark, exactly the
+situation this paper's eleven-model, three-target design creates; and
+\citet{hansen2005} extends this into a formal test for superior
+predictive ability, refining White's reality check to be less
+conservative under a large candidate set. \citet{diebold2015} revisits
+the Diebold--Mariano test two decades on, cautioning against
+mechanically applying it outside the pairwise, fixed-model comparison it
+was designed for -- a caution this paper takes seriously by using a
+block-bootstrap test on pooled predictions, suited to the many-model,
+multiple-target comparison this paper actually makes, rather than
+forcing the classical pairwise test onto a setting with a different
+structure.
+
+The volatility-forecasting evidence for machine learning is not
+uniformly positive even before formal significance testing is applied.
+Working with commodity price series specifically, \citet{lytraoredia2021}
+find that LSTM networks do not systematically outperform ARIMA, and that
+combining forecasts across model classes is often more useful than
+searching for a single best model -- an early, direct precedent for this
+paper's own conclusion that no single sophisticated model dominates.
+
 \subsection{Currency-crisis and exchange-rate classification: closer to
 the present task, and more cautious in its conclusions}
 
@@ -215,7 +250,14 @@ address overfitting \citep{imf2021fiscal} -- a specific, citable
 explanation for this paper's own finding that unregularized logistic
 regression is the weakest model in the comparison for two of three
 targets, while its regularized counterparts (LASSO, elastic net) perform
-substantially better.
+substantially better. Sequence models specifically have also been tested
+in this literature: \citet{barthelemy2024} apply LSTM and GRU networks
+to currency-crisis early warning across a cross-country panel and find
+them useful in that pooled setting -- a result this paper's own scope
+decision not to build a sequence model (Section~\ref{sec:models}) is
+directly consistent with, since the cross-country pooling that makes
+sequence models viable there is unavailable for a single currency
+studied in isolation.
 
 The most methodologically direct precedent for this paper's design and
 conclusion, however, is not in the emerging-market or currency-crisis
@@ -238,8 +280,16 @@ former.
 \subsection{Markov-switching models for exchange rates: a literature
 that has itself long been cautious}
 
-The Markov-switching exchange-rate literature provides useful context
-for interpreting this paper's own Markov-switching results. Engel's
+Exchange-rate forecasting is a demanding setting for any claim of
+predictive skill, statistical or machine-learning. Since
+\citet{meeserogoff1983} showed that a random walk forecasts major
+exchange rates out of sample at least as well as a range of structural
+economic models -- a result that has proven remarkably durable --
+exchange rates have been treated as among the hardest financial series
+to forecast reliably, and any model claiming to beat a naive benchmark
+in this setting invites particular scrutiny. The Markov-switching
+exchange-rate literature provides useful context for interpreting this
+paper's own Markov-switching results against that backdrop. Engel's
 foundational study \citep{engel1994} found that a Markov-switching model
 fit to eighteen exchange rates does not generate superior forecasts to a
 random walk by mean-squared error, though showed some promise
@@ -399,15 +449,17 @@ number of states is fixed at two rather than tuned, a deliberate,
 disclosed scope choice consistent with the regime structure already
 established for this currency in the companion study.
 
-\textbf{Logistic, LASSO, elastic net.} Standard, LASSO ($\ell_1$), and
-elastic net ($\ell_1$/$\ell_2$, mixing ratio 0.5) logistic regression,
+\textbf{Logistic, LASSO, elastic net.} Standard, LASSO
+\citep[$\ell_1$;][]{tibshirani1996}, and elastic net ($\ell_1$/$\ell_2$,
+mixing ratio 0.5) logistic regression,
 each on standardized features; separated into three models rather than
 one, since regularization type is itself a variable of interest given
 this paper's finding (Section~\ref{sec:results}) that unregularized
 logistic regression is the weakest model in the entire comparison for
 two of three targets.
 
-\textbf{Random forest, XGBoost.} Standard ensemble tree methods.
+\textbf{Random forest \citep{breiman2001}, XGBoost \citep{chenguestrin2016}.}
+Standard ensemble tree methods.
 XGBoost's \texttt{min\_child\_weight} parameter required a specific,
 documented correction during development: an initial value calibrated
 against a raw sample-count intuition (appropriate for scikit-learn's
@@ -471,7 +523,8 @@ carry this paper's conclusions.
 \subsection{Significance testing}
 \label{sec:sigtest}
 
-Point-estimate AUC comparisons are tested for significance by a paired
+Point-estimate AUC \citep{fawcett2006} comparisons are tested for
+significance by a paired
 moving-block bootstrap (block length 20 trading days, 2,000 replicates)
 on pooled out-of-fold predictions: because every model in a given
 comparison is scored against the same realized outcomes on the same
@@ -652,7 +705,7 @@ learning beats statistics."
 \subsection{Interpretability}
 \label{sec:interpret}
 
-Permutation-importance and SHAP diagnostics were recomputed on the
+Permutation-importance and SHAP \citep{lundberglee2017} diagnostics were recomputed on the
 actual final tuned models from the nested cross-validation run, after an
 initial pass (run before the model roster and nested tuning were
 finalized) was identified as stale and discarded rather than reported
