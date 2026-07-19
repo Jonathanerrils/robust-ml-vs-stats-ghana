@@ -1,0 +1,24 @@
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# Yahoo Finance ToS: fetch-only, do not redistribute. The merged
+# returns/prices panels combine Yahoo commodity data with BoG/FRED
+# series, so the whole merged file is excluded (cannot selectively
+# redistribute only the non-Yahoo columns of a merged file).
+data/processed/returns_real_extended.csv
+data/processed/prices_real.csv
+data/raw/*.csv
+!data/raw/bog/
+!data/raw/bog/**
+!data/raw/fred/
+!data/raw/fred/**
+
+# LaTeX build artifacts
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.spl
