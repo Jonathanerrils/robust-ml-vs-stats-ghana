@@ -64,7 +64,24 @@ Commodity futures come from the companion project's cleaned panel — Yahoo's te
 
 ## Honest gaps
 
-Nine of the literature citations are missing author names — the search results that turned them up gave titles and journals but not always clean bylines, and we'd rather leave a gap than guess at a name (see `DECISIONS.md` for the full story). We also looked seriously at adding an LSTM or GRU and decided against it — not because it's a bad idea, but because the sample size genuinely can't support it (the paper's Limitations section walks through the math). And the hyperparameter grids are modest, a handful of values each, not an exhaustive sweep — kept deliberately small so the nested CV finishes in a reasonable time.
+Seven citations still have missing author names: the two Ghana-specific
+exchange-rate papers (LSTM and XGBoost), the Ghana BMA paper, the
+LSTM-attention currency-crisis paper, the regime-count paper, the
+currency-crisis EWS paper, and the structural-breaks JRFM paper. A
+literature-verification pass (see `DECISIONS.md`) fixed the four that
+mattered most — including the CAD/USD paper, our single most important
+citation, which had no author at all until we tracked down the actual
+nine names on arXiv — and flagged these seven as still needing a
+primary-source lookup before formal submission. We're leaving them
+exactly as flagged rather than guessing at names to make the warnings
+go away.
+
+We also looked seriously at adding an LSTM or GRU and decided against
+it — not because it's a bad idea, but because the sample size genuinely
+can't support it (the paper's Limitations section walks through the
+math). And the hyperparameter grids are modest, a handful of values
+each, not an exhaustive sweep — kept deliberately small so the nested CV
+finishes in a reasonable time.
 
 ## License
 
